@@ -47,6 +47,9 @@
       "path": "node_modules/cz-customizable"
     }
   },
+  "husky": {
+    "hooks": {}
+  },
   "lint-staged": {
     "src/**/*.{js,vue}": [
       "eslint --fix",
