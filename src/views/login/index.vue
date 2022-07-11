@@ -57,7 +57,16 @@ export default {
   },
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    // 点击登录事件
+    handleLoginSubmit() {
+      this.$refs.ruleform.validate((valid) => {
+        if (valid) {
+          console.log('000')
+        }
+      })
+    }
+  }
 }
 </script>
 <style scoped lang="scss">
