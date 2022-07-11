@@ -1,0 +1,68 @@
+// header背景颜色
+$header-bg-color:#18bc9c;
+//左侧背景颜色
+$aside-bg-color: #222d32;
+// 主内容背景颜色
+$main-bg-color:#e8edf0;
+/**
+ * 手形
+ */
+.hand { cursor: pointer; }
+/**
+ * 字体颜色
+ */
+.white{ color: white; }
+.primary{ color: #409EFF; }
+.success{ color: #67C23A; }
+.warning{ color: #E6A23C; }
+.danger{ color: #F56C6C; }
+.info{ color: #909399; }
+.one_c{ color: #303133; } // 主要文字
+.two_c{ color: #606266; } // 常规文字
+.three_c{ color: #303133; } // 次要文字
+.four_c{ color: #C0C4CC; } // 占位文字
+/**
+ * 边线
+ */
+.border{ border: 1px solid #F56C6C; }
+
+/**
+ * 头像
+ */
+.avatar{ width: 70px; height: 70px;border-radius: 100%;cursor: pointer;}
+/**
+ * flex
+ */
+.flex{ display: flex; }
+.a_c{ align-items: center; }
+.j_c{ justify-content: center; }
+.f_r{ flex-direction: row-reverse; } // 起点在右
+.space_between{ justify-content:  space-between; }
+
+/**
+ * w_100
+ */
+.w_100{ width: 100%; }
+
+/**
+ * margin
+ */
+.mt_1{ margin-top: 10px; }
+.mt_2{ margin-top: 20px; }
+.mt_3{ margin-top: 30px; }
+.mt_4{ margin-top: 40px; }
+.mt_5{ margin-top: 50px; }
+
+.mb_1{ margin-bottom: 10px; }
+.mb_2{ margin-bottom: 20px; }
+.mb_3{ margin-bottom: 30px; }
+.mb_4{ margin-bottom: 40px; }
+.mb_5{ margin-bottom: 50px; }
+
+.mr_1{ margin-right: 10px; }
+.mr_2{ margin-right: 20px; }
+.mr_3{ margin-right: 30px; }
+.mr_4{ margin-right: 40px; }
+
+.ml_1{ margin-left: 10px; }
+.ml_2{ margin-left: 20px; }
