@@ -36,8 +36,11 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-button type="danger" @click="handleLoginSubmit"
-            >立即登录</el-button
+          <el-button
+            type="danger"
+            @click="handleLoginSubmit"
+            :loading="loadingStatus"
+            >{{ loadingStatus ? '登录中...' : '立即登录' }}</el-button
           >
         </el-form-item>
       </el-form>
@@ -47,6 +50,7 @@
 
 <script>
 import User from '../../api/user'
+import { mapActions } from 'vuex'
 export default {
   components: {},
   data() {
@@ -58,6 +62,7 @@ export default {
         token: ''
       },
       captchaImg: '',
+      loadingStatus: false,
       rules: {
         username: [{ required: true, message: '请输入账号', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
@@ -92,17 +97,22 @@ export default {
     // 登录事件
     async handleLoginSubmit() {
       try {
-        const token = await this.$store.dispatch('user/login', this.loginForm)
+        const token = await this.login(this.loginForm)
         if (!token) return
-        // this.$notify({ title: '提示', message: '登录成功', type: 'success' })
-        // this.loadingStatus = true
+        this.$notify({ title: '提示', message: '登录成功', type: 'success' })
+        this.loadingStatus = true
         this.$store.dispatch('user/getUserInfo')
         this.$store.dispatch('user/getNav')
         await this.$router.push('/')
       } catch (e) {
         console.log(e)
+      } finally {
+        this.loadingStatus = false
       }
-    }
+    },
+    ...mapActions({
+      login: 'user/login'
+    })
   }
 }
 </script>
