@@ -4,20 +4,20 @@
     <div class="box">
       <h2>欢迎登录</h2>
       <el-form
-        :model="ruleForm"
+        :model="loginForm"
         :rules="rules"
         ref="ruleform"
         class="demo-ruleForm"
       >
         <el-form-item prop="username">
           <el-input
-            v-model="ruleForm.username"
+            v-model="loginForm.username"
             placeholder="请输入账号"
           ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
-            v-model="ruleForm.password"
+            v-model="loginForm.password"
             show-password
             placeholder="请输入密码"
           ></el-input>
@@ -25,7 +25,7 @@
         <el-form-item prop="code" class="ccode">
           <el-input
             class="codeInput"
-            v-model="ruleForm.code"
+            v-model="loginForm.code"
             placeholder="请输入验证码"
           ></el-input>
           <img
@@ -46,12 +46,12 @@
 </template>
 
 <script>
-import User from '../../../api/user'
+import User from '../../api/user'
 export default {
   components: {},
   data() {
     return {
-      ruleForm: {
+      loginForm: {
         username: '',
         password: '',
         code: '',
@@ -74,19 +74,34 @@ export default {
     async handleGetCode() {
       const { token, captchaImg } = await User.getCode()
       this.captchaImg = captchaImg
-      this.ruleForm.token = token
+      this.loginForm.token = token
     },
     // 获取新验证码
     handleGetNewCode() {
+      this.loginForm.code = ''
       this.handleGetCode()
     },
-    // 点击登录事件
-    handleLoginSubmit() {
+    // 表单校验事件
+    handleLoginValidate() {
       this.$refs.ruleform.validate((valid) => {
         if (valid) {
-          console.log('000')
+          this.handleLoginSubmit()
         }
       })
+    },
+    // 登录事件
+    async handleLoginSubmit() {
+      try {
+        const token = await this.$store.dispatch('user/login', this.loginForm)
+        if (!token) return
+        // this.$notify({ title: '提示', message: '登录成功', type: 'success' })
+        // this.loadingStatus = true
+        this.$store.dispatch('user/getUserInfo')
+        this.$store.dispatch('user/getNav')
+        await this.$router.push('/')
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }

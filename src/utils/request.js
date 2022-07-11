@@ -3,6 +3,7 @@ import axios from 'axios'
 import {
   Message
 } from 'element-ui'
+import store from '../store'
 
 // 导入自定义消息提示
 import exceptionMessage from './exception-message'
@@ -13,6 +14,9 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
+    // 将token发送给后台
+    const token = store.getters.token
+    if (token) config.headers.token = token
     return config
   },
   (err) => {

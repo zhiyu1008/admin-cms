@@ -2,7 +2,7 @@ import request from '@/utils/request'
 // 登录接口
 const login = (data) => {
   return request({
-    url: '/login',
+    url: '/login?username=' + data.username + '&password=' + data.password + '&code=' + data.code + '&token=' + data.token,
     method: 'POST',
     data
   })
