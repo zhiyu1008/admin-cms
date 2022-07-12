@@ -1,13 +1,10 @@
 <template>
-  <div class="container">
-    <SideBarMenu></SideBarMenu>
-  </div>
+  <div id="app">菜单管理</div>
 </template>
 
 <script>
-import SideBarMenu from './SideBarMenu'
 export default {
-  components: { SideBarMenu },
+  components: {},
   data() {
     return {}
   },

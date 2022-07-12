@@ -3,6 +3,12 @@ module.exports = {
   env: {
     node: true
   },
+  overrides: [{
+    files: ['src/views/**/*.vue'],
+    rules: {
+      'vue/multi-word-component-names': 0,
+    },
+  }, ],
   extends: [
     'plugin:vue/essential',
     '@vue/standard'

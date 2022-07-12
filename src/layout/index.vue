@@ -14,6 +14,7 @@
 import SideBar from './SideBar'
 import NavBar from './NavBar'
 import AppMain from './AppMain'
+import store from '@/store'
 export default {
   components: {
     SideBar,
@@ -23,7 +24,10 @@ export default {
   data() {
     return {}
   },
-  created() {},
+  created() {
+    store.dispatch('user/getUserInfo')
+    store.dispatch('user/getNav')
+  },
   mounted() {},
   methods: {}
 }

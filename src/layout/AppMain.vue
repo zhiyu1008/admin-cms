@@ -1,21 +1,16 @@
 <template>
-<div class='container'>
-  addmain
-</div>
+  <div class="container"><router-view></router-view></div>
 </template>
 
 <script>
 export default {
   components: {},
-  data () {
-    return {
-    }
+  data() {
+    return {}
   },
-  created () { },
-  mounted () { },
+  created() {},
+  mounted() {},
   methods: {}
 }
 </script>
-<style scoped lang='scss'>
-
-</style>
+<style scoped lang="scss"></style>
