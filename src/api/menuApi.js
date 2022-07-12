@@ -2,7 +2,7 @@ import request from '@/utils/request'
 // 获取菜单列表+查询接口
 const getMenuList = (data) => {
   return request({
-    url: `/menu/list?current=${data.current}&size=${data.size}&username=${data.username}`,
+    url: '/menu/list',
     method: 'GET',
     data
   })

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 // 获取用户列表+查询接口
 const getUserList = (data) => {
   return request({
-    url: `/user/list?current=${data.current}&size=${data.size}&username=${data.username}`,
+    url: '/user/list',
     method: 'GET',
     data
   })

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 // 获取角色列表+查询接口
 const getRoleList = (data) => {
   return request({
-    url: `/role/list?current=${data.current}&size=${data.size}&name=${data.name}`,
+    url: '/role/list',
     method: 'GET',
     data
   })
