@@ -55,6 +55,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="userInfo.current"
+      :page-sizes="[5, 10, 15, 20]"
+      :page-size="userInfo.size"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    >
+    </el-pagination>
   </div>
 </template>
 
@@ -72,6 +83,7 @@ export default {
         size: 10,
         username: ''
       },
+      total: 10,
       roleInfo: {
         current: 1,
         size: 50
@@ -121,7 +133,9 @@ export default {
     // 分配权限事件
     handleDistribution() {},
     // 删除事件
-    handleDel() {}
+    handleDel() {},
+    handleSizeChange() {},
+    handleCurrentChange() {}
   }
 }
 </script>
@@ -135,5 +149,8 @@ export default {
   .tags {
     margin-right: 5px !important;
   }
+}
+.el-pagination {
+  margin-top: 10px;
 }
 </style>
