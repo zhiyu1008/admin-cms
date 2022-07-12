@@ -70,6 +70,7 @@ export default {
       right: 0;
       width: calc(100% - 200px);
       height: calc(100% - 60px);
+      overflow: auto;
       z-index: 999;
     }
   }

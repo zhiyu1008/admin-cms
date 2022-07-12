@@ -29,6 +29,7 @@ module.exports = {
     'indent': ['off', 2],
     //关闭组件命名规则
     "vue/multi-word-component-names": "off",
-
+    'vue/valid-v-for': 'off',
+    'vue/no-mutating-props': 'off'
   }
 }

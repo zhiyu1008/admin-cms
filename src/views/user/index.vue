@@ -1,5 +1,12 @@
 <template>
   <div id="app">
+    <!-- 搜索表单 -->
+    <SearchForm
+      :column="SearchFormColumn"
+      :searchInfo="searchInfo"
+      @handleSearch="handleSearch"
+      @handleAdd="handleAdd"
+    ></SearchForm>
     <!-- 用户列表 -->
     <el-table :data="userList" style="width: 100%" border>
       <el-table-column type="index" label="序号" width="50" align="center">
@@ -14,7 +21,7 @@
       <el-table-column prop="roles" label="角色" align="center">
         <template slot-scope="scope">
           <template v-for="item in scope.row.roles">
-            <el-tag :key="item.id">{{ item.name }}</el-tag>
+            <el-tag>{{ item.name }}</el-tag>
           </template>
         </template>
       </el-table-column>
@@ -55,8 +62,9 @@
 import UserApi from '../../api/userApi'
 import RoleApi from '../../api/roleApi'
 import User from '../../api/user'
+import SearchForm from '@/components/SearchForm'
 export default {
-  components: {},
+  components: { SearchForm },
   data() {
     return {
       userInfo: {
@@ -69,7 +77,14 @@ export default {
         size: 50
       },
       userList: [],
-      status: false
+      status: false,
+      SearchFormColumn: [
+        {
+          placeholder: '请输入用户名',
+          label: '用户名'
+        }
+      ],
+      searchInfo: {}
     }
   },
   created() {
@@ -93,6 +108,14 @@ export default {
     async getRoleList() {
       await RoleApi.getRoleList(this.roleInfo)
     },
+    // 查询事件
+    handleSearch(info) {
+      alert(JSON.stringify(info))
+    },
+    // 点击新增事件
+    handleAdd() {
+      alert('add')
+    },
     // 编辑事件
     handleEdit() {},
     // 分配权限事件
@@ -104,6 +127,8 @@ export default {
 </script>
 <style scoped lang="scss">
 #app {
+  padding: 20px;
+  box-sizing: border-box;
   .avatar {
     width: 70px;
     height: 70px;
