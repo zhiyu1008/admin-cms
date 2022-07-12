@@ -26,7 +26,9 @@ module.exports = {
         ignores: ["index"], //需要忽略的组件名
       },
     ],
-    'indent': ['off', 2]
+    'indent': ['off', 2],
+    //关闭组件命名规则
+    "vue/multi-word-component-names": "off",
 
   }
 }

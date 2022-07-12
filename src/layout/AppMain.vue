@@ -1,10 +1,16 @@
 <template>
-  <div class="container"><router-view></router-view></div>
+  <div class="container">
+    <div class="nav">
+      <Hamburger></Hamburger>
+    </div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
+import Hamburger from '@/components/Hamburger'
 export default {
-  components: {},
+  components: { Hamburger },
   data() {
     return {}
   },
@@ -13,4 +19,10 @@ export default {
   methods: {}
 }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.nav {
+  padding: 18px 20px;
+  border-bottom: 1px solid #ebeef5;
+  box-sizing: border-box;
+}
+</style>

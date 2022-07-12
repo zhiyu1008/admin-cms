@@ -64,7 +64,6 @@ export default {
     }
     .appmain {
       box-sizing: border-box;
-      // padding: 20px;
       border: 20px solid #e6ebee;
       position: fixed;
       bottom: 0;
