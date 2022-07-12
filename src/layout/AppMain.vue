@@ -3,7 +3,7 @@
     <div class="nav">
       <Hamburger></Hamburger>
     </div>
-    <router-view></router-view>
+    <router-view class="main"></router-view>
   </div>
 </template>
 
@@ -23,6 +23,10 @@ export default {
 .nav {
   padding: 18px 20px;
   border-bottom: 1px solid #ebeef5;
+  box-sizing: border-box;
+}
+.main {
+  padding: 20px;
   box-sizing: border-box;
 }
 </style>

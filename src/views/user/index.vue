@@ -127,8 +127,6 @@ export default {
 </script>
 <style scoped lang="scss">
 #app {
-  padding: 20px;
-  box-sizing: border-box;
   .avatar {
     width: 70px;
     height: 70px;
