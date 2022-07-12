@@ -28,9 +28,17 @@ const getNav = () => {
     method: 'GET'
   })
 }
+// 退出登录接口
+const logout = () => {
+  return request({
+    url: '/logout',
+    method: 'POST'
+  })
+}
 export default {
   login,
   getCode,
   getUserInfo,
-  getNav
+  getNav,
+  logout
 }

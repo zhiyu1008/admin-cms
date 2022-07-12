@@ -8,12 +8,11 @@
     unique-opened
     router
   >
-    <SideBarMenuItem></SideBarMenuItem>
-    <!-- <SideBarMenuItem
+    <SideBarMenuItem
       v-for="(item, index) in menuList"
       :key="index"
       :menuList="item"
-    ></SideBarMenuItem> -->
+    ></SideBarMenuItem>
   </el-menu>
 </template>
 <script>

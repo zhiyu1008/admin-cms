@@ -1,7 +1,8 @@
 import User from '@/api/user'
 import {
   setItem,
-  getItem
+  getItem,
+  removeItem
 } from '@/utils/storage'
 
 export default {
@@ -45,6 +46,15 @@ export default {
       const nav = await User.getNav()
       commit('setNav', nav)
       return nav
+    },
+    async logout({
+      commit
+    }) {
+      await User.logout()
+      commit('setToken', '')
+      commit('setUserInfo', {})
+      commit('setNav', {})
+      removeItem('token')
     }
   }
 }
