@@ -7,6 +7,8 @@ import './styles/reset.scss'
 // 引入elemen-ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+// 引入页面鉴权
+import './permission'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false

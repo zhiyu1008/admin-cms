@@ -9,7 +9,7 @@ import store from '../store'
 import exceptionMessage from './exception-message'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 3000
+  timeout: 20000
 })
 // 请求拦截器
 service.interceptors.request.use(
