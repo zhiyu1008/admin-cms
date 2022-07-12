@@ -9,7 +9,10 @@
         :key="index"
       >
         {{ item.title }}
-        <span @click.stop="handleCloseTag(index, item.path)" class="close"
+        <span
+          @click.stop="handleCloseTag(index, item.path)"
+          v-if="item.path!='/home'"
+          class="close"
           >x</span
         >
       </li>
@@ -47,7 +50,6 @@ export default {
     handleSelectTag(path) {
       this.$router.push(path)
     },
-
     // tagsview的删除事件
     handleCloseTag(index, routePath) {
       // 如果点击首页不可以删除
