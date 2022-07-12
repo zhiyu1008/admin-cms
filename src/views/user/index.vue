@@ -59,9 +59,9 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="userInfo.current"
+      :current-page="searchInfo.current"
       :page-sizes="[5, 10, 15, 20]"
-      :page-size="userInfo.size"
+      :page-size="searchInfo.size"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     >
@@ -78,7 +78,7 @@ export default {
   components: { SearchForm },
   data() {
     return {
-      userInfo: {
+      searchInfo: {
         current: 1,
         size: 10,
         username: ''
@@ -95,8 +95,7 @@ export default {
           placeholder: '请输入用户名',
           label: '用户名'
         }
-      ],
-      searchInfo: {}
+      ]
     }
   },
   created() {
@@ -108,9 +107,9 @@ export default {
   methods: {
     // 获取用户列表 (用户列表接口+角色列表接口+nav接口)
     async getUserList() {
-      const response = await UserApi.getUserList(this.userInfo)
+      const response = await UserApi.getUserList(this.searchInfo)
       this.userList = response.records
-      // console.log(this.userList)
+      this.total = response.total
     },
     // 获取nav
     async getNav() {
@@ -134,8 +133,17 @@ export default {
     handleDistribution() {},
     // 删除事件
     handleDel() {},
-    handleSizeChange() {},
-    handleCurrentChange() {}
+    // 条数改变触发
+    handleSizeChange(size) {
+      this.searchInfo.current = 1
+      this.searchInfo.size = size
+      this.getUserList()
+    },
+    // 页面改变触发
+    handleCurrentChange(page) {
+      this.searchInfo.current = page
+      this.getUserList()
+    }
   }
 }
 </script>
@@ -151,6 +159,6 @@ export default {
   }
 }
 .el-pagination {
-  margin-top: 10px;
+  margin: 10px 0;
 }
 </style>
