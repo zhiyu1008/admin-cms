@@ -82,7 +82,6 @@
 <script>
 import UserApi from '../../api/userApi'
 import RoleApi from '../../api/roleApi'
-import User from '../../api/user'
 import SearchForm from '@/components/SearchForm'
 export default {
   components: { SearchForm },
@@ -112,7 +111,7 @@ export default {
   },
   created() {
     this.getUserList()
-    this.getNav()
+    this.$store.dispatch('user/getNav')
     this.getRoleList()
   },
   mounted() {},
@@ -122,10 +121,6 @@ export default {
       const response = await UserApi.getUserList(this.userForm)
       this.userList = response.records
       this.total = response.total
-    },
-    // 获取nav
-    async getNav() {
-      await User.getNav()
     },
     // 获取角色列表
     async getRoleList() {
@@ -148,7 +143,7 @@ export default {
           UserApi.delUser(id)
           this.userForm.current = 1
           this.getUserList()
-          this.$message.success('删除成功!')
+          // this.$message.success('删除成功!')
         })
         .catch(() => {
           this.$message.info('已取消删除')
