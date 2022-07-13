@@ -16,8 +16,7 @@
       :tree-props="{ children: 'children' }"
     >
       <!-- :tree-props="{ menuList: 'menuList', menuList: 'menuList' }" -->
-      <el-table-column prop="id" label="序号" align="center">
-      </el-table-column>
+      <el-table-column prop="id" label="序号" align="center"> </el-table-column>
       <el-table-column prop="name" label="展示名称" align="center">
       </el-table-column>
       <el-table-column prop="label" label="文件名称" align="center">
@@ -31,6 +30,11 @@
       <el-table-column prop="icon" label="图标" align="center">
       </el-table-column>
       <el-table-column prop="type" label="类型" align="center">
+        <template slot-scope="scope">
+          <el-tag type="danger" v-if="scope.row.type === 2">按钮</el-tag>
+          <el-tag v-if="scope.row.type === 1">菜单</el-tag>
+          <el-tag type="success" v-if="scope.row.type === 0">目录</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -49,8 +53,6 @@
             inactive-color="#ff4949"
           />
         </template>
-      </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" align="center">
       </el-table-column>
       <el-table-column label="操作" align="center" width="150">
         <template slot-scope="scope">
