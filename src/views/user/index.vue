@@ -67,11 +67,56 @@
     >
     </el-pagination>
     <!-- 模态框 -->
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
-      <span>这是一段信息</span>
+    <el-dialog
+      :title="dialogTitle"
+      :visible.sync="dialogVisible"
+      width="30%"
+      center
+    >
+      <el-form
+        :model="dialogForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="头像" prop="avatar">
+          <template>
+            <img
+              class="addimg"
+              src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5a307996-a7f5-483d-a6f1-6ea9944b0d18/94d8e009-b183-4d54-a389-724181af5362.jpg"
+              alt=""
+            />
+          </template>
+        </el-form-item>
+        <el-form-item label="用户名" prop="username">
+          <el-input
+            v-model="dialogForm.username"
+            placeholder="请输入用户名"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input
+            v-model="dialogForm.password"
+            placeholder="请输入密码"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input
+            v-model="dialogForm.email"
+            placeholder="请输入邮箱"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-radio-group v-model="dialogForm.status">
+            <el-radio label="启用"></el-radio>
+            <el-radio label="禁用"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
+        <el-button type="success" @click="dialogVisible = false"
           >确 定</el-button
         >
       </span>
@@ -106,7 +151,20 @@ export default {
           prop: 'username'
         }
       ],
-      dialogVisible: false
+      dialogVisible: false,
+      dialogTitle: '新增用户',
+      rules: {
+        avatar: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        email: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        status: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
+      },
+      dialogForm: {}
     }
   },
   created() {
@@ -149,12 +207,16 @@ export default {
           this.$message.info('已取消删除')
         })
     },
-    // 点击新增事件
+    // 点击新增按钮事件
     handleAdd() {
+      this.dialogTitle = '新增用户'
       this.dialogVisible = true
     },
-    // 编辑事件
-    handleEdit() {},
+    // 点击编辑按钮事件
+    handleEdit() {
+      this.dialogTitle = '编辑用户'
+      this.dialogVisible = true
+    },
     // 分配权限事件
     handleDistribution() {},
     // 条数改变触发
@@ -184,5 +246,10 @@ export default {
 }
 .el-pagination {
   margin: 10px 0;
+}
+.addimg {
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
 }
 </style>

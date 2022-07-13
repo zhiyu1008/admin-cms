@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import 'default-passive-events'
 // 引入公共样式
 import './styles/reset.scss'
 // 引入elemen-ui
