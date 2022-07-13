@@ -10,7 +10,8 @@ export default {
   state: {
     token: getItem('token') || '',
     userInfo: {},
-    nav: {}
+    nav: {},
+    menus: []
   },
   mutations: {
     setToken(state, token) {
@@ -19,6 +20,9 @@ export default {
     },
     setUserInfo(state, userInfo) {
       state.userInfo = userInfo
+    },
+    setMenus(state, menus) {
+      state.menus = menus
     },
     setNav(state, nav) {
       state.nav = nav
@@ -43,9 +47,10 @@ export default {
     async getNav({
       commit
     }) {
-      const nav = await User.getNav()
-      commit('setNav', nav)
-      return nav
+      const res = await User.getNav()
+      commit('setNav', res)
+      commit('setMenus', res.menus)
+      return res
     },
     async logout({
       commit

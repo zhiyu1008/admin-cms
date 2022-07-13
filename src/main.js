@@ -11,6 +11,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 引入页面鉴权
 import './permission'
 
+// 引入view-ui
+import ViewUI from 'view-design'
+import 'view-design/dist/styles/iview.css'
+Vue.use(ViewUI)
+
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 

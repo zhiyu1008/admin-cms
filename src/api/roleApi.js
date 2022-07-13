@@ -40,9 +40,9 @@ const editRole = (data) => {
   })
 }
 // 分配权限接口 /role/perm/7
-const assignRole = (data) => {
+const assignRole = (id, data) => {
   return request({
-    url: '/role/perm/' + data,
+    url: `/role/perm/${id}`,
     method: 'POST',
     data
   })

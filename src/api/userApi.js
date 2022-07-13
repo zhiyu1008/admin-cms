@@ -42,7 +42,7 @@ const editUser = (data) => {
 // 分配权限接口 /api/user/assign/24
 const assignUser = (data) => {
   return request({
-    url: '/user/assign?/' + data,
+    url: '/user/assign/' + data,
     method: 'POST',
     data
   })

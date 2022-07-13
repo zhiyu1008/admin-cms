@@ -31,6 +31,7 @@ module.exports = {
     "vue/multi-word-component-names": "off",
     'vue/valid-v-for': 'off',
     'vue/no-mutating-props': 'off',
-    'dot-notation': 'off'
+    'dot-notation': 'off',
+    'prefer-const': 'off'
   }
 }
