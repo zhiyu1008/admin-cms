@@ -30,6 +30,7 @@ module.exports = {
     //关闭组件命名规则
     "vue/multi-word-component-names": "off",
     'vue/valid-v-for': 'off',
-    'vue/no-mutating-props': 'off'
+    'vue/no-mutating-props': 'off',
+    'dot-notation': 'off'
   }
 }

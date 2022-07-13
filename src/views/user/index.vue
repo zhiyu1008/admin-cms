@@ -94,6 +94,7 @@
         <el-form-item label="密码" prop="password">
           <el-input
             v-model="dialogForm.password"
+            type="password"
             placeholder="请输入密码"
           ></el-input>
         </el-form-item>
@@ -112,9 +113,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="success" @click="dialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button type="success" @click="handleAddOk">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -218,11 +217,58 @@ export default {
       this.dialogTitle = '编辑用户'
       this.dialogVisible = true
       try {
-        const res = await UserApi.getUser(id)
-        this.dialogForm = res
-        this.dialogForm.avatar = res.avatar
+        this.dialogForm = await UserApi.getUser(id)
       } catch (error) {
         console.log(error)
+      }
+    },
+    // 模态框确定事件
+    handleAddOk() {
+      this.$refs['ruleForm'].validate(async (valid) => {
+        if (valid) {
+          if (this.dialogTitle === '编辑用户') {
+            this.handleEditSupplier()
+          } else {
+            this.handleAddSupplier()
+          }
+          // this.$refs['ruleForm'].handleClose()
+        } else {
+          return false
+        }
+      })
+    },
+    // 关闭添加·模态框
+    handleClose() {
+      this.dialogVisible = false
+    },
+    // 实现添加功能
+    async handleAddSupplier() {
+      try {
+        await UserApi.addUser(this.dialogForm)
+        this.handleClose()
+        this.getUserList()
+        this.$notify({
+          title: '提示',
+          message: '添加用户成功',
+          type: 'success'
+        })
+      } catch (error) {
+        this.$notify({ title: '提示', message: '添加用户失败', type: 'info' })
+      }
+    },
+    // 实现编辑功能
+    async handleEditSupplier() {
+      try {
+        await UserApi.editUser(this.dialogForm)
+        this.handleClose()
+        this.getUserList()
+        this.$notify({
+          title: '提示',
+          message: '编辑用户成功',
+          type: 'success'
+        })
+      } catch (error) {
+        this.$notify({ title: '提示', message: '编辑用户失败', type: 'info' })
       }
     },
     // 分配权限事件
