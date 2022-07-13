@@ -66,6 +66,16 @@
       :total="total"
     >
     </el-pagination>
+    <!-- 模态框 -->
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -95,7 +105,8 @@ export default {
           placeholder: '请输入用户名',
           label: '用户名'
         }
-      ]
+      ],
+      dialogVisible: false
     }
   },
   created() {
@@ -121,18 +132,20 @@ export default {
     },
     // 查询事件
     handleSearch(info) {
-      alert(JSON.stringify(info))
+      this.searchInfo.username = info.undefined
+      this.searchInfo.current = 1
+      this.getUserList()
     },
     // 点击新增事件
     handleAdd() {
-      alert('add')
+      this.dialogVisible = true
     },
+    // 删除事件
+    handleDel() {},
     // 编辑事件
     handleEdit() {},
     // 分配权限事件
     handleDistribution() {},
-    // 删除事件
-    handleDel() {},
     // 条数改变触发
     handleSizeChange(size) {
       this.searchInfo.current = 1
