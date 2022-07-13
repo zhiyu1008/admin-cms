@@ -3,7 +3,7 @@
     <!-- 搜索表单 -->
     <SearchForm
       :column="SearchFormColumn"
-      :searchInfo="searchInfo"
+      :searchInfo="userForm"
       @handleSearch="handleSearch"
       @handleAdd="handleAdd"
     ></SearchForm>
@@ -59,9 +59,9 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="searchInfo.current"
+      :current-page="userForm.current"
       :page-sizes="[5, 10, 15, 20]"
-      :page-size="searchInfo.size"
+      :page-size="userForm.size"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     >
@@ -88,7 +88,7 @@ export default {
   components: { SearchForm },
   data() {
     return {
-      searchInfo: {
+      userForm: {
         current: 1,
         size: 10,
         username: ''
@@ -103,7 +103,8 @@ export default {
       SearchFormColumn: [
         {
           placeholder: '请输入用户名',
-          label: '用户名'
+          label: '用户名',
+          prop: 'username'
         }
       ],
       dialogVisible: false
@@ -118,7 +119,7 @@ export default {
   methods: {
     // 获取用户列表 (用户列表接口+角色列表接口+nav接口)
     async getUserList() {
-      const response = await UserApi.getUserList(this.searchInfo)
+      const response = await UserApi.getUserList(this.userForm)
       this.userList = response.records
       this.total = response.total
     },
@@ -132,8 +133,8 @@ export default {
     },
     // 查询事件
     handleSearch(info) {
-      this.searchInfo.username = info.undefined
-      this.searchInfo.current = 1
+      this.userForm.username = info.username
+      this.userForm.current = 1
       this.getUserList()
     },
     // 删除事件
@@ -145,7 +146,7 @@ export default {
       })
         .then(() => {
           UserApi.delUser(id)
-          this.searchInfo.current = 1
+          this.userForm.current = 1
           this.getUserList()
           this.$message.success('删除成功!')
         })
@@ -163,13 +164,13 @@ export default {
     handleDistribution() {},
     // 条数改变触发
     handleSizeChange(size) {
-      this.searchInfo.current = 1
-      this.searchInfo.size = size
+      this.userForm.current = 1
+      this.userForm.size = size
       this.getUserList()
     },
     // 页面改变触发
     handleCurrentChange(page) {
-      this.searchInfo.current = page
+      this.userForm.current = page
       this.getUserList()
     }
   }
