@@ -297,7 +297,7 @@ export default {
 .el-pagination {
   margin: 10px 0;
   box-sizing: border-box;
-  padding-left: 800px;
+  padding-left: 700px;
 }
 </style>
 <!-- <el-form

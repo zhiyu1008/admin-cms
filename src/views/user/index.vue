@@ -329,7 +329,7 @@ export default {
 .el-pagination {
   margin: 10px 0;
   box-sizing: border-box;
-  padding-left: 800px;
+  padding-left: 700px;
 }
 .addimg {
   width: 70px;

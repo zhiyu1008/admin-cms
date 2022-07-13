@@ -8,8 +8,15 @@
       @handleAdd="handleAdd"
     ></SearchForm>
     <!-- 菜单列表 -->
-    <el-table :data="menuList" style="width: 100%" border>
-      <el-table-column type="index" label="序号" width="50" align="center">
+    <el-table
+      :data="menuList"
+      style="width: 100%"
+      border
+      row-key="id"
+      :tree-props="{ children: 'children' }"
+    >
+      <!-- :tree-props="{ menuList: 'menuList', menuList: 'menuList' }" -->
+      <el-table-column prop="id" label="序号" align="center">
       </el-table-column>
       <el-table-column prop="name" label="展示名称" align="center">
       </el-table-column>
@@ -25,7 +32,12 @@
       </el-table-column>
       <el-table-column prop="type" label="类型" align="center">
       </el-table-column>
-      <el-table-column prop="createTime" label="注册时间" align="center" width="200">
+      <el-table-column
+        prop="createTime"
+        label="注册时间"
+        align="center"
+        width="200"
+      >
       </el-table-column>
       <el-table-column prop="status" label="状态" align="center">
         <template slot-scope="scope"
@@ -141,7 +153,6 @@
 
 <script>
 import MenuApi from '../../api/menuApi'
-import UserApi from '../../api/userApi'
 import SearchForm from '@/components/SearchForm'
 export default {
   components: { SearchForm },
@@ -162,6 +173,7 @@ export default {
           prop: 'name'
         }
       ],
+      children: [],
       dialogVisible: false,
       dialogTitle: '新增菜单',
       rules: {
@@ -178,7 +190,6 @@ export default {
   },
   created() {
     this.getMenuList()
-    this.getUserInfo()
     this.$store.dispatch('user/getNav')
   },
   mounted() {},
@@ -186,11 +197,10 @@ export default {
     // 获取菜单列表 (菜单列表接口+菜单列表接口+nav接口)
     async getMenuList() {
       this.menuList = await MenuApi.getMenuList(this.menuForm)
-      console.log(this.menuList)
-    },
-    // 获取用户信息
-    async getUserInfo() {
-      await UserApi.getUser()
+      this.children = this.menuList.map((item) => {
+        return item.children
+      })
+      console.log(this.children)
     },
     // 查询事件
     handleSearch(info) {
@@ -305,6 +315,6 @@ export default {
 .el-pagination {
   margin: 10px 0;
   box-sizing: border-box;
-  padding-left: 800px;
+  padding-left: 700px;
 }
 </style>

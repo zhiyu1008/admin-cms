@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <template v-if="menuList && !menuList.children">
+    <!-- <template v-if="menuList && !menuList.children">
       <el-menu-item :index="menuList.path">
         {{ menuList.meta.title }}
       </el-menu-item>
@@ -18,7 +18,7 @@
           :key="index"
         ></SideBarMenuItem>
       </el-submenu>
-    </template>
+    </template> -->
   </div>
 </template>
 <script>
