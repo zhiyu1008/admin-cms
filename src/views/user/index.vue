@@ -82,11 +82,7 @@
       >
         <el-form-item label="头像" prop="avatar">
           <template>
-            <img
-              class="addimg"
-              src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5a307996-a7f5-483d-a6f1-6ea9944b0d18/94d8e009-b183-4d54-a389-724181af5362.jpg"
-              alt=""
-            />
+            <img class="addimg" :src="dialogForm.avatar" alt="" />
           </template>
         </el-form-item>
         <el-form-item label="用户名" prop="username">
@@ -109,8 +105,8 @@
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="dialogForm.status">
-            <el-radio label="启用"></el-radio>
-            <el-radio label="禁用"></el-radio>
+            <el-radio :label="1">启用</el-radio>
+            <el-radio :label="2">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -209,13 +205,25 @@ export default {
     },
     // 点击新增按钮事件
     handleAdd() {
+      this.dialogForm = {
+        status: 1,
+        avatar:
+          'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5a307996-a7f5-483d-a6f1-6ea9944b0d18/94d8e009-b183-4d54-a389-724181af5362.jpg'
+      }
       this.dialogTitle = '新增用户'
       this.dialogVisible = true
     },
     // 点击编辑按钮事件
-    handleEdit() {
+    async handleEdit(id) {
       this.dialogTitle = '编辑用户'
       this.dialogVisible = true
+      try {
+        const res = await UserApi.getUser(id)
+        this.dialogForm = res
+        this.dialogForm.avatar = res.avatar
+      } catch (error) {
+        console.log(error)
+      }
     },
     // 分配权限事件
     handleDistribution() {},
