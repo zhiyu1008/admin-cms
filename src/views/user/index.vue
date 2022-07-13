@@ -42,16 +42,16 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template slot-scope="scope">
-          <el-tag type="success" class="tags" @click="handleEdit(scope.id)"
+          <el-tag type="success" class="tags" @click="handleEdit(scope.row.id)"
             >编辑</el-tag
           >
           <el-tag
             type="warning"
             class="tags"
-            @click="handleDistribution(scope.id)"
+            @click="handleDistribution(scope.row.id)"
             >分配角色</el-tag
           >
-          <el-tag type="danger" @click="handleDel(scope.id)">删除</el-tag>
+          <el-tag type="danger" @click="handleDel(scope.row.id)">删除</el-tag>
         </template>
       </el-table-column>
     </el-table>
@@ -136,12 +136,27 @@ export default {
       this.searchInfo.current = 1
       this.getUserList()
     },
+    // 删除事件
+    handleDel(id) {
+      this.$confirm('确定删除该条数据吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          UserApi.delUser(id)
+          this.searchInfo.current = 1
+          this.getUserList()
+          this.$message.success('删除成功!')
+        })
+        .catch(() => {
+          this.$message.info('已取消删除')
+        })
+    },
     // 点击新增事件
     handleAdd() {
       this.dialogVisible = true
     },
-    // 删除事件
-    handleDel() {},
     // 编辑事件
     handleEdit() {},
     // 分配权限事件
