@@ -9,9 +9,9 @@ export default {
   namespaced: true,
   state: {
     token: getItem('token') || '',
-    userInfo: {},
-    nav: {},
-    menus: []
+    userInfo: '',
+    permissionList: '',
+    menus: ''
   },
   mutations: {
     setToken(state, token) {
@@ -24,8 +24,8 @@ export default {
     setMenus(state, menus) {
       state.menus = menus
     },
-    setNav(state, nav) {
-      state.nav = nav
+    setPermission(state, permission) {
+      state.permission = permission
     }
   },
   actions: {
@@ -47,19 +47,31 @@ export default {
     async getNav({
       commit
     }) {
-      const res = await User.getNav()
-      commit('setNav', res)
-      commit('setMenus', res.menus)
-      return res
+      const {
+        authoritys,
+        menus
+      } = await User.getNav()
+      if (authoritys.length > 0 && menus.length > 0) {
+        commit('setPermission', authoritys)
+        commit('setMenus', menus)
+        return {
+          authoritys,
+          menus
+        }
+      } else {
+        return false
+      }
     },
     async logout({
       commit
     }) {
       await User.logout()
       commit('setToken', '')
-      commit('setUserInfo', {})
-      commit('setNav', {})
+      commit('setUserInfo', '')
+      commit('setMenu', '')
+      commit('setPermission', '')
       removeItem('token')
+      return true
     }
   }
 }

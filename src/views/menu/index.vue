@@ -25,7 +25,7 @@
       </el-table-column>
       <el-table-column prop="component" label="前端component" align="center">
       </el-table-column>
-      <el-table-column prop="perm" label="唯一标识" align="center">
+      <el-table-column prop="perms" label="唯一标识" align="center">
       </el-table-column>
       <el-table-column prop="icon" label="图标" align="center">
       </el-table-column>

@@ -1,13 +1,15 @@
 <template>
-  <div id="app">
-    <SideBar class="sidebar"></SideBar>
-    <div class="main">
+  <el-container id="app">
+    <el-aside class="sidebar" width="auto">
+      <SideBar></SideBar>
+    </el-aside>
+    <el-main class="main">
       <div class="navbar">
         <NavBar></NavBar>
       </div>
       <AppMain class="appmain"></AppMain>
-    </div>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
@@ -34,48 +36,32 @@ export default {
 </script>
 <style scoped lang="scss">
 #app {
-  position: relative;
-  width: 100%;
+  display: flex;
+  align-items: center;
   height: 100%;
-
   .sidebar {
-    width: 200px;
     height: 100%;
     background-color: $aside-bg-color;
     overflow-y: auto;
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
   }
-
   .main {
-    width: calc(100% - 200px);
-    margin-left: 210px;
-    position: relative;
+    height: 100%;
     .navbar {
       background-color: $header-bg-color;
-      width: calc(100% - 200px);
-      position: fixed;
-      top: 0;
-      right: 0;
-      z-index: 999;
       height: 60px;
     }
     .appmain {
       box-sizing: border-box;
       border: 20px solid #e6ebee;
-      position: fixed;
-      bottom: 0;
-      right: 0;
-      width: calc(100% - 200px);
       height: calc(100% - 60px);
       overflow: auto;
-      z-index: 999;
     }
   }
 }
 ::-webkit-scrollbar {
   display: none; /* Chrome Safari */
+}
+.el-main {
+  padding: 0;
 }
 </style>

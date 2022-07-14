@@ -18,7 +18,7 @@ const addUser = (data) => {
 // 删除用户接口
 const delUser = (data) => {
   return request({
-    url: '/user/del?0=' + data,
+    url: '/user/del',
     method: 'POST',
     data
   })

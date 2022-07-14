@@ -5,7 +5,10 @@ import {
 export default {
   namespaced: true,
   state: {
-    tagsView: getItem('tagsview') || []
+    tagsView: getItem('tagsview') || [{
+      path: '/index',
+      title: '控制台'
+    }]
   },
   mutations: {
     setTagsView(state, tagsView) {

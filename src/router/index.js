@@ -11,17 +11,17 @@ const routes = [{
   },
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/index',
     name: 'layout',
     component: () => import('../layout'),
     children: [{
-      path: '/home',
-      name: 'sys:home',
+      path: '/index',
+      name: 'sys:index',
       meta: {
         title: '控制台',
         icon: 'el-icon-s-home'
       },
-      component: () => import('../views/home')
+      component: () => import('../views/index')
     }]
   },
   {
@@ -35,16 +35,16 @@ const routes = [{
     component: () => import('../views/error-page/401')
   },
   {
-    path: '/system',
-    name: 'system',
+    path: '/sys',
+    name: 'sys',
     component: Layout,
-    redirect: '/system/user',
+    redirect: '/sys/users',
     meta: {
       title: '系统管理',
       icon: 'personnel'
     },
     children: [{
-        path: '/system/user',
+        path: '/sys/users',
         component: () => import('../views/user'),
         name: 'sys:user:list',
         meta: {
@@ -53,7 +53,7 @@ const routes = [{
         }
       },
       {
-        path: '/system/role',
+        path: '/sys/roles',
         component: () => import('../views/role'),
         name: 'sys:role:list',
         meta: {
@@ -62,7 +62,7 @@ const routes = [{
         }
       },
       {
-        path: '/system/menu',
+        path: '/sys/menus',
         component: () => import('../views/menu'),
         name: 'sys:menu:list',
         meta: {

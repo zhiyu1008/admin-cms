@@ -1,7 +1,15 @@
 <template>
   <div class="header">
     <div class="left">
-      <el-button icon="el-icon-s-fold"></el-button>
+      <!-- <el-button icon="el-icon-s-fold"></el-button> -->
+      <el-button
+        @click="handleCollapseMenu"
+        size="mini"
+        type="text"
+        :icon="
+          $store.getters.isCollapse ? 'el-icon-s-fold' : 'el-icon-s-unfold'
+        "
+      ></el-button>
       <TagsView></TagsView>
     </div>
     <div class="right">
@@ -29,6 +37,9 @@ export default {
     TagsView
   },
   methods: {
+    handleCollapseMenu() {
+      this.$store.dispatch('menu/setCollapse')
+    },
     handleCommand(command) {
       switch (command) {
         case 'personSetting':
@@ -43,9 +54,15 @@ export default {
       alert('这是个人设置')
     },
     async handleLogout() {
-      this.$store.dispatch('user/logout')
-      this.$notify({ title: '提示', message: '退出登录成功', type: 'success' })
-      this.$router.push('/login')
+      const response = this.$store.dispatch('user/logout')
+      if (response) {
+        this.$notify({
+          title: '提示',
+          message: '退出登录成功',
+          type: 'success'
+        })
+        this.$router.push('/login')
+      }
     }
   },
   computed: {

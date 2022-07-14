@@ -18,7 +18,7 @@ const addRole = (data) => {
 // 删除角色接口   /role/del?0=8
 const delRole = (data) => {
   return request({
-    url: '/role/del?0=' + data,
+    url: '/role/del',
     method: 'POST',
     data
   })

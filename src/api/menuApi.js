@@ -18,7 +18,7 @@ const addMenu = (data) => {
 // 删除菜单接口   /menu/del?0=8
 const delMenu = (data) => {
   return request({
-    url: '/menu/del?0=' + data,
+    url: '/menu/del',
     method: 'POST',
     data
   })

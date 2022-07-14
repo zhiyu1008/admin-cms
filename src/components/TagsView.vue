@@ -11,7 +11,7 @@
         {{ item.title }}
         <span
           @click.stop="handleCloseTag(index, item.path)"
-          v-if="item.path!='/home'"
+          v-if="item.path != '/index'"
           class="close"
           >x</span
         >
@@ -39,7 +39,8 @@ export default {
     deep: true,
     immediate: true
   },
-  created() {},
+  created() {
+  },
   computed: {
     // 获取tagsview的数据
     tagsView() {
@@ -53,7 +54,7 @@ export default {
     // tagsview的删除事件
     handleCloseTag(index, routePath) {
       // 如果点击首页不可以删除
-      if (routePath === '/home') {
+      if (routePath === '/index') {
         return
       }
       let path = ''

@@ -1,7 +1,12 @@
 <template>
   <div>
-    <p v-if="this.$route.path === '/home'" class="home">控制台</p>
-    <el-breadcrumb separator="/" v-if="this.$route.path !== '/home'">
+    <el-breadcrumb separator-class="el-icon-arrow-right" v-if="this.$route.path === '/index'">
+      <el-breadcrumb-item>控制台</el-breadcrumb-item>
+    </el-breadcrumb>
+    <el-breadcrumb
+      separator-class="el-icon-arrow-right"
+      v-if="this.$route.path !== '/index'"
+    >
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <template v-for="(item, index) in $route.matched">
         <el-breadcrumb-item :to="{ path: item.path }" :key="index">{{
@@ -9,6 +14,12 @@
         }}</el-breadcrumb-item>
       </template>
     </el-breadcrumb>
+    <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>活动管理</el-breadcrumb-item>
+      <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+      <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+    </el-breadcrumb> -->
   </div>
 </template>
 <script>
