@@ -2,8 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Layout from '../layout'
 
-Vue.use(VueRouter)
-
 const routes = [{
     path: '/login',
     name: 'login',
@@ -38,7 +36,6 @@ const routes = [{
     path: '/sys',
     name: 'sys',
     component: Layout,
-    redirect: '/sys/users',
     meta: {
       title: '系统管理',
       icon: 'personnel'
@@ -77,5 +74,11 @@ const routes = [{
 const router = new VueRouter({
   routes
 })
+Vue.use(VueRouter)
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
 
 export default router

@@ -45,9 +45,7 @@ export default {
   components: {
     MenuTree
   },
-  created() {
-    console.log('create', this.menus)
-  }
+  created() {}
 }
 </script>
 

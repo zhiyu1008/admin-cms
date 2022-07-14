@@ -1,7 +1,6 @@
 <template>
   <div class="header">
     <div class="left">
-      <!-- <el-button icon="el-icon-s-fold"></el-button> -->
       <el-button
         @click="handleCollapseMenu"
         size="mini"
@@ -61,7 +60,7 @@ export default {
           message: '退出登录成功',
           type: 'success'
         })
-        this.$router.push('/login')
+        // this.$router.push('/login')
       }
     }
   },

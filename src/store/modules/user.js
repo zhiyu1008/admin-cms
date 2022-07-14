@@ -4,6 +4,7 @@ import {
   getItem,
   removeItem
 } from '@/utils/storage'
+import router from '@/router'
 
 export default {
   namespaced: true,
@@ -68,9 +69,10 @@ export default {
       await User.logout()
       commit('setToken', '')
       commit('setUserInfo', '')
-      commit('setMenu', '')
+      commit('setMenus', '')
       commit('setPermission', '')
       removeItem('token')
+      router.push('/login')
       return true
     }
   }
