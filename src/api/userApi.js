@@ -15,6 +15,13 @@ const addUser = (data) => {
     data
   })
 }
+// 获取加密密码
+const getPassword = () => {
+  return request({
+    url: '/sys/setpwd',
+    method: 'GET'
+  })
+}
 // 删除用户接口
 const delUser = (data) => {
   return request({
@@ -50,6 +57,7 @@ const assignUser = (id, data) => {
 export default {
   getUserList,
   addUser,
+  getPassword,
   delUser,
   getUser,
   editUser,
