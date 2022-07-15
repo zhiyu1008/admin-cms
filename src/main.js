@@ -13,10 +13,6 @@ import './permission'
 
 import Fragment from 'vue-fragment'
 
-// 引入view-ui
-import ViewUI from 'view-design'
-import 'view-design/dist/styles/iview.css'
-Vue.use(ViewUI)
 Vue.use(Fragment.Plugin)
 Vue.use(ElementUI)
 Vue.config.productionTip = false

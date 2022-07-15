@@ -98,17 +98,31 @@
       </span>
     </el-dialog>
     <!-- 分类权限 -->
-    <Modal
-      v-model="dialogModel"
-      title="分配权限"
-      @on-ok="handleAssignPermissions"
+    <el-dialog
+      center
+      :title="permissionDialogTitle"
+      :visible.sync="permissionDialogFormVisible"
     >
-      <Tree
-        :data="treeData"
-        show-checkbox
-        @on-check-change="getSelectedNodes"
-      ></Tree>
-    </Modal>
+      <el-form :model="permissionForm">
+        <el-tree
+          ref="tree"
+          :data="menuList"
+          show-checkbox
+          node-key="id"
+          default-expand-all
+          :props="{ label: 'label', children: 'children' }"
+        >
+        </el-tree>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="permissionDialogFormVisible = false"
+          >取 消</el-button
+        >
+        <el-button type="primary" @click="handleSubmitPermission"
+          >确 定</el-button
+        >
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -116,7 +130,6 @@
 import RoleApi from '../../api/roleApi'
 import MenuApi from '../../api/menuApi'
 import SearchForm from '@/components/SearchForm'
-import { filterTreeData } from '@/views/role/utils/FilterTreeData'
 export default {
   components: { SearchForm },
   data() {
@@ -145,9 +158,12 @@ export default {
         status: [{ required: true, message: '请选择状态', trigger: 'blur' }]
       },
       dialogForm: {},
-      dialogModel: false,
-      treeData: [],
-      PermissionsID: null
+      permissionDialogFormVisible: false,
+      permissionDialogTitle: '',
+      permissionForm: {},
+      menuList: [],
+      permissionId: '',
+      menuIds: ''
     }
   },
   created() {
@@ -165,7 +181,11 @@ export default {
     },
     // 获取菜单列表
     async getMenuList() {
-      await MenuApi.getMenuList(this.roleForm)
+      try {
+        this.menuList = await MenuApi.getMenuList(this.roleForm)
+      } catch (e) {
+        console.log(e)
+      }
     },
     // 查询事件
     handleSearch(info) {
@@ -199,13 +219,18 @@ export default {
       this.dialogVisible = true
     },
     // 点击编辑按钮事件
-    async handleEdit(id) {
+    handleEdit(id) {
       this.dialogTitle = '编辑角色'
       this.dialogVisible = true
-      try {
-        this.dialogForm = await RoleApi.getRole(id)
-      } catch (error) {
-        console.log(error)
+      this.handleGetRoleInfo(id)
+    },
+    // 获取用户信息
+    async handleGetRoleInfo(id) {
+      const response = await RoleApi.getRole(id)
+      if (response) {
+        this.dialogForm = response
+        this.menuIds = response.menuIds
+        this.$refs.tree.setCheckedKeys(this.menuIds)
       }
     },
     // 模态框确定事件
@@ -258,21 +283,20 @@ export default {
       }
     },
     // 点击分配权限事件
-    async handleDistribution(row) {
-      this.PermissionsID = row.id
-      this.treeData = filterTreeData(this.$store.getters.menus)
-      this.dialogModel = true
-      console.log(row)
+    handleDistribution(row) {
+      this.permissionDialogTitle = `给"${row.name}"分配权限`
+      this.permissionDialogFormVisible = true
+      this.handleGetRoleInfo(row.id)
+      this.permissionId = row.id
     },
     // 分配权限确定事件
-    async handleAssignPermissions(params) {
-      await RoleApi.assignRole(this.PermissionsID, params)
+    async handleSubmitPermission() {
+      const keys = this.$refs.tree.getCheckedKeys()
+      const response = await RoleApi.assignRole(this.permissionId, keys)
+      console.log(response)
+      this.permissionDialogFormVisible = false
+      this.$notify.success('分配成功')
       this.getRoleList()
-      this.$Message.success('分配成功！')
-    },
-    getSelectedNodes(data) {
-      const arr = data.map((item) => item.id)
-      this.handleAssignPermissions(arr)
     },
     // 条数改变触发
     handleSizeChange(size) {
