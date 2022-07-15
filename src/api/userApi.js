@@ -40,9 +40,9 @@ const editUser = (data) => {
   })
 }
 // 分配权限接口 /api/user/assign/24
-const assignUser = (data) => {
+const assignUser = (id, data) => {
   return request({
-    url: '/user/assign/' + data,
+    url: `/user/assign/${id}`,
     method: 'POST',
     data
   })

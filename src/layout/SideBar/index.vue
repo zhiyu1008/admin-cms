@@ -21,11 +21,9 @@
 </template>
 
 <script>
-import MenuTree from '@/layout/SideBar/MenuTree'
+import MenuTree from './MenuTree'
 import { filterMenus } from '@/utils/menus'
-
 export default {
-  name: 'index',
   data() {
     return {}
   },

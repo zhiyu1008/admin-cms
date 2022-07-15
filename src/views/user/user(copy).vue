@@ -48,7 +48,7 @@
           <el-tag
             type="warning"
             class="tags"
-            @click="handleOpenRoleDialog(scope.row)"
+            @click="handleDistribution(scope.row)"
             >分配角色</el-tag
           >
           <el-tag type="danger" @click="handleDel(scope.row.id)">删除</el-tag>
@@ -117,19 +117,20 @@
       </span>
     </el-dialog>
     <!-- 分类权限 -->
-    <el-dialog width="30%" center title="分配角色" :visible.sync="dialogAssign">
-      <el-form :model="roleForm" :rules="roleRules" ref="roleDialogForm" label-width="60px">
-        <el-form-item label="角色" prop="roleId">
-          <el-select style="width : 100%;" multiple v-model="roleForm.roleId" placeholder="请选择角色">
-            <el-option v-for="(item,index) in roleList" :key="index" :label="item.name" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogAssign = false">取 消</el-button>
-        <el-button type="primary" @click="handleSubmitRole">确 定</el-button>
-      </div>
-    </el-dialog>
+    <Modal
+      v-model="dialogActionModel"
+      title="分配角色"
+      @on-ok="assignPermissions"
+    >
+      <Select v-model="selectValue" :max-tag-count="2" multiple>
+        <Option
+          v-for="item in selectRoleList"
+          :key="item.value"
+          :value="item.id"
+          >{{ item.name }}</Option
+        >
+      </Select>
+    </Modal>
   </div>
 </template>
 
@@ -170,15 +171,10 @@ export default {
         status: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
       },
       dialogForm: {},
-      dialogAssign: false,
-      roleForm: { roleId: [] },
-      roleRules: {
-         roleId: [
-          { required: true, message: '请选择角色', trigger: 'change' }
-        ]
-      },
-      roleId: '',
-      roleList: {}
+      dialogActionModel: false,
+      selectValue: [],
+      permissionId: null,
+      selectRoleList: []
     }
   },
   created() {
@@ -196,13 +192,7 @@ export default {
     },
     // 获取角色列表
     async getRoleList() {
-      try {
-        const data = { current: this.current, size: this.size }
-        const response = await RoleApi.getRoleList(data)
-        this.roleList = response.records
-      } catch (e) {
-        console.log(e)
-      }
+      await RoleApi.getRoleList(this.userForm)
     },
     // 查询事件
     handleSearch(info) {
@@ -296,27 +286,20 @@ export default {
         this.$notify({ title: '提示', message: '编辑用户失败', type: 'info' })
       }
     },
-    // 点击分配角色事件
-    handleOpenRoleDialog(row) {
-      this.roleForm.roleId = []
-      this.dialogAssign = true
-      row.roles.forEach(item => {
-        this.roleForm.roleId.push(item.id)
-      })
-      this.roleId = row.id
-      // console.log(this.roleForm.roleId)
+    // 点击分配权限事件
+    async handleDistribution(row) {
+      this.selectValue = row.roles.map((item) => item.id)
+      const res = await RoleApi.getRoleList(this.userForm)
+      this.selectRoleList = res.records
+      this.permissionId = row.id
+      if (res.records) {
+        this.dialogActionModel = true
+      }
     },
-    // 分配角色确定事件
-    handleSubmitRole() {
-      this.$refs.roleDialogForm.validate(async (valid) => {
-        if (valid) {
-          const response = await UserApi.assignUser(this.roleId, this.roleForm.roleId)
-          this.dialogAssign = false
-          this.$notify({ title: '提示', message: '更新成功', type: 'success' })
-          this.getUserList()
-          console.log(response)
-        }
-      })
+    // 分配权限确定事件
+    async assignPermissions() {
+      await UserApi.assignUser(this.permissionId, this.selectValue)
+      this.$message.success('分配成功！')
     },
     // 条数改变触发
     handleSizeChange(size) {
