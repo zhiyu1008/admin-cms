@@ -1,6 +1,7 @@
 import {
   setItem,
-  getItem
+  getItem,
+  removeItem
 } from '../../utils/storage'
 export default {
   namespaced: true,
@@ -21,6 +22,13 @@ export default {
     removeTagsView(state, index) {
       state.tagsView.splice(index, 1)
       setItem('tagsview', state.tagsView)
+    },
+    clearTagsView(state) {
+      state.tagsView = [{
+        path: '/index',
+        title: '控制台'
+      }]
+      removeItem('tagsview')
     }
   },
   actions: {

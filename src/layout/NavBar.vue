@@ -53,15 +53,14 @@ export default {
       alert('这是个人设置')
     },
     async handleLogout() {
-      const response = this.$store.dispatch('user/logout')
-      if (response) {
-        this.$notify({
-          title: '提示',
-          message: '退出登录成功',
-          type: 'success'
-        })
-        // this.$router.push('/login')
-      }
+      this.$store.dispatch('user/logout')
+      this.$store.commit('tagsview/clearTagsView')
+      this.$notify({
+        title: '提示',
+        message: '退出登录成功',
+        type: 'success'
+      })
+      // this.$router.push('/login')
     }
   },
   computed: {

@@ -48,7 +48,7 @@
           <el-tag
             type="warning"
             class="tags"
-            @click="handleDistribution(scope.row)"
+            @click="handleOpenRoleDialog(scope.row)"
             >分配角色</el-tag
           >
           <el-tag type="danger" @click="handleDel(scope.row.id)">删除</el-tag>
@@ -117,20 +117,34 @@
       </span>
     </el-dialog>
     <!-- 分类权限 -->
-    <Modal
-      v-model="dialogActionModel"
-      title="分配角色"
-      @on-ok="assignPermissions"
-    >
-      <Select v-model="selectValue" :max-tag-count="2" multiple>
-        <Option
-          v-for="item in selectRoleList"
-          :key="item.value"
-          :value="item.id"
-          >{{ item.name }}</Option
-        >
-      </Select>
-    </Modal>
+    <el-dialog width="30%" center title="分配角色" :visible.sync="dialogAssign">
+      <el-form
+        :model="roleForm"
+        :rules="roleRules"
+        ref="roleDialogForm"
+        label-width="60px"
+      >
+        <el-form-item label="角色" prop="roleId">
+          <el-select
+            style="width: 100%"
+            multiple
+            v-model="roleForm.roleId"
+            placeholder="请选择角色"
+          >
+            <el-option
+              v-for="(item, index) in roleList"
+              :key="index"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogAssign = false">取 消</el-button>
+        <el-button type="primary" @click="handleSubmitRole">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -171,10 +185,13 @@ export default {
         status: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
       },
       dialogForm: {},
-      dialogActionModel: false,
-      selectValue: [],
-      permissionId: null,
-      selectRoleList: []
+      dialogAssign: false,
+      roleForm: { roleId: [] },
+      roleRules: {
+        roleId: [{ required: true, message: '请选择角色', trigger: 'change' }]
+      },
+      roleId: '',
+      roleList: {}
     }
   },
   created() {
@@ -192,7 +209,13 @@ export default {
     },
     // 获取角色列表
     async getRoleList() {
-      await RoleApi.getRoleList(this.userForm)
+      try {
+        const data = { current: this.current, size: this.size }
+        const response = await RoleApi.getRoleList(data)
+        this.roleList = response.records
+      } catch (e) {
+        console.log(e)
+      }
     },
     // 查询事件
     handleSearch(info) {
@@ -286,20 +309,30 @@ export default {
         this.$notify({ title: '提示', message: '编辑用户失败', type: 'info' })
       }
     },
-    // 点击分配权限事件
-    async handleDistribution(row) {
-      this.selectValue = row.roles.map((item) => item.id)
-      const res = await RoleApi.getRoleList(this.userForm)
-      this.selectRoleList = res.records
-      this.permissionId = row.id
-      if (res.records) {
-        this.dialogActionModel = true
-      }
+    // 点击分配角色事件
+    handleOpenRoleDialog(row) {
+      this.roleForm.roleId = []
+      this.dialogAssign = true
+      row.roles.forEach((item) => {
+        this.roleForm.roleId.push(item.id)
+      })
+      this.roleId = row.id
+      // console.log(this.roleForm.roleId)
     },
-    // 分配权限确定事件
-    async assignPermissions() {
-      await UserApi.assignUser(this.permissionId, this.selectValue)
-      this.$message.success('分配成功！')
+    // 分配角色确定事件
+    handleSubmitRole() {
+      this.$refs.roleDialogForm.validate(async (valid) => {
+        if (valid) {
+          const response = await UserApi.assignUser(
+            this.roleId,
+            this.roleForm.roleId
+          )
+          this.dialogAssign = false
+          this.$notify({ title: '提示', message: '更新成功', type: 'success' })
+          this.getUserList()
+          console.log(response)
+        }
+      })
     },
     // 条数改变触发
     handleSizeChange(size) {
@@ -337,42 +370,3 @@ export default {
   border-radius: 35px;
 }
 </style>
-<!-- 用户管理模态框 -->
-<!-- <el-form
-        :model="dialogForm"
-        :rules="rules"
-        ref="ruleForm"
-        label-width="100px"
-        class="demo-ruleForm"
-      >
-        <el-form-item label="头像" prop="avatar">
-          <template>
-            <img class="addimg" :src="dialogForm.avatar" alt="" />
-          </template>
-        </el-form-item>
-        <el-form-item label="用户名" prop="username">
-          <el-input
-            v-model="dialogForm.username"
-            placeholder="请输入用户名"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input
-            v-model="dialogForm.password"
-            type="password"
-            placeholder="请输入密码"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input
-            v-model="dialogForm.email"
-            placeholder="请输入邮箱"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="dialogForm.status">
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="2">禁用</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form> -->
